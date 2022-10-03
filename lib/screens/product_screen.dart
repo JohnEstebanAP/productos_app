@@ -60,15 +60,16 @@ class _ProductsScreenBody extends StatelessWidget {
                   child: IconButton(
                     onPressed: () async {
                       //Todo: camara o galeria
-                      final picker = new ImagePicker();
+                      final picker = ImagePicker();
 
                       //Galeria
                       //final PickedFile? pickedFile = await picker.getImage(
                       //    source: ImageSource.gallery, imageQuality: 100);
 
                       //Camara
-                      final PickedFile? pickedFile = await picker.getImage(
-                          source: ImageSource.camera, imageQuality: 100);
+                      final PickedFile? pickedFile = await picker.pickImage(
+                          source: ImageSource.camera,
+                          imageQuality: 100) as PickedFile?;
 
                       if (pickedFile == null) {
                         print('No selecciono nada');
@@ -108,8 +109,8 @@ class _ProductsScreenBody extends StatelessWidget {
                 await productService.saveOrCreateProduct(productForm.product);
               },
         child: productService.isSaving
-            ? CircularProgressIndicator(color: Colors.white)
-            : Icon(Icons.save_outlined),
+            ? const CircularProgressIndicator(color: Colors.white)
+            : const Icon(Icons.save_outlined),
       ),
     );
   }
@@ -141,9 +142,10 @@ class _ProductForm extends StatelessWidget {
                 initialValue: product.name,
                 onChanged: (value) => product.name = value,
                 validator: (value) {
-                  if (value == null || value.length < 1) {
+                  if (value == null || value.isEmpty) {
                     return 'El nombre es obligatorio';
                   }
+                  return null;
                 },
                 decoration: InputDecorations.authInputDecoration(
                     hintText: 'Nombre del producto', labelText: 'Nombre'),

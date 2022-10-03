@@ -72,7 +72,7 @@ class _LoginForm extends StatelessWidget {
               validator: (value) {
                 String pattern =
                     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                RegExp regExp = new RegExp(pattern);
+                RegExp regExp = RegExp(pattern);
 
                 return regExp.hasMatch(value ?? '')
                     ? null
@@ -117,7 +117,8 @@ class _LoginForm extends StatelessWidget {
                         Navigator.pushReplacementNamed(context, 'home');
                       } else {
                         //Todo: mostrar error en pantalla
-                        NotificationsService.showSnackbar('El Correo no es valido.');
+                        NotificationsService.showSnackbar(
+                            'El Correo no es valido.');
                         loginForm.isLoading = false;
                       }
                     },
@@ -130,7 +131,7 @@ class _LoginForm extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                 child: Text(loginForm.isLoading ? 'Espere' : 'Ingresar',
-                    style: TextStyle(color: Colors.white)),
+                    style: const TextStyle(color: Colors.white)),
               ),
             ),
           ],

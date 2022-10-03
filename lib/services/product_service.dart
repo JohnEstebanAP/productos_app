@@ -12,7 +12,7 @@ class ProductService extends ChangeNotifier {
   final List<Product> products = [];
   late Product selectedProduct;
 
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   File? newPictureFile;
 
@@ -20,11 +20,11 @@ class ProductService extends ChangeNotifier {
   bool isSaving = false;
 
   ProductService() {
-    this.loadProducts();
+    loadProducts();
   }
 
   Future<List<Product>> loadProducts() async {
-    this.isLoding = true;
+    isLoding = true;
     notifyListeners();
 
     final url = Uri.https(_baseUrl, 'product.json',
@@ -37,13 +37,13 @@ class ProductService extends ChangeNotifier {
       final tempProduct = Product.fromMap(value);
       tempProduct.id = key;
 
-      this.products.add(tempProduct);
+      products.add(tempProduct);
     });
 
-    this.isLoding = false;
+    isLoding = false;
     notifyListeners();
 
-    return this.products;
+    return products;
   }
 
   Future saveOrCreateProduct(Product product) async {
@@ -66,7 +66,7 @@ class ProductService extends ChangeNotifier {
     final url = Uri.https(_baseUrl, 'product/${product.id}.json');
     final resp = await http.put(url, body: product.toJson());
     final decodeData = resp.body;
-    print(decodeData);
+    //print(decodeData);
 
     //Actualizar la Lista de productos
     final index = products.indexWhere((element) => element.id == product.id);
@@ -80,7 +80,7 @@ class ProductService extends ChangeNotifier {
         {'auth': await storage.read(key: 'token') ?? ''});
     final resp = await http.post(url, body: product.toJson());
     final decodeData = json.decode(resp.body);
-    print(decodeData);
+    //print(decodeData);
 
     //Actualizar la Lista de productos
     product.id = decodeData['name'];
@@ -90,15 +90,15 @@ class ProductService extends ChangeNotifier {
   }
 
   void updateSelectedProductImage(String path) {
-    this.selectedProduct.picture = path;
-    this.newPictureFile = File.fromUri(Uri(path: path));
+    selectedProduct.picture = path;
+    newPictureFile = File.fromUri(Uri(path: path));
     notifyListeners();
   }
 
   Future<String?> uploadImage() async {
-    if (this.newPictureFile == null) return null;
+    if (newPictureFile == null) return null;
 
-    this.isSaving = true;
+    isSaving = true;
     notifyListeners();
 
     final url = Uri.parse(
@@ -123,7 +123,7 @@ class ProductService extends ChangeNotifier {
     }
 
     //lo colocamos en null para indicar que lla lo subimos y no nesecitamo esa propiedad
-    this.newPictureFile = null;
+    newPictureFile = null;
 
     final decodedData = json.decode(resp.body);
     return decodedData['secure_url'];

@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Productos'),
         leading: IconButton(
-          icon: Icon(Icons.logout_outlined),
+          icon: const Icon(Icons.logout_outlined),
           onPressed: () {
             authService.logout();
             Navigator.pushReplacementNamed(context, 'login');
@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                 product: productsService.products[index],
               ))),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           productsService.selectedProduct =
               Product(available: false, name: '', price: 0.0);

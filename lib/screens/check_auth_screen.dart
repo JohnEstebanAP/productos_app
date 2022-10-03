@@ -16,7 +16,7 @@ class CheckAutnScreen extends StatelessWidget {
         child: FutureBuilder(
             future: authService.readToken(),
             builder: (BuildContext contex, AsyncSnapshot<String> snapshot) {
-              if (!snapshot.hasData) return Text('Espere');
+              if (!snapshot.hasData) return const Text('Espere');
 
               if (snapshot.data == '') {
                 Future.microtask(() {
@@ -24,24 +24,23 @@ class CheckAutnScreen extends StatelessWidget {
                     context,
                     PageRouteBuilder(
                       //el pageBuirder resive lao 3 animaciones en este caso no queremos animaciones
-                      pageBuilder: (_, __, ___) => LoginScreen(),
-                      transitionDuration: Duration(seconds: 0),
+                      pageBuilder: (_, __, ___) => const LoginScreen(),
+                      transitionDuration: const Duration(seconds: 0),
                     ),
                   );
                 });
-              }else{
+              } else {
                 Future.microtask(() {
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
                       //el pageBuirder resive lao 3 animaciones en este caso no queremos animaciones
-                      pageBuilder: (_, __, ___) => HomeScreen(),
-                      transitionDuration: Duration(seconds: 0),
+                      pageBuilder: (_, __, ___) => const HomeScreen(),
+                      transitionDuration: const Duration(seconds: 0),
                     ),
                   );
                 });
               }
-
 
               return Container();
             }),
